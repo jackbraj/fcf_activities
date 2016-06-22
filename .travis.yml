@@ -41,7 +41,8 @@ before_install:
   - codeceptjs
   # Install selenium server (standalone)
   - wget -c -nc --retry-connrefused --tries=0 https://selenium-release.storage.googleapis.com/2.42/selenium-server-2.42.0.zip
-  - tar -xvf selenium-server-2.42.0.zip && mv selenium-server /usr/local/bin/selenium-server
+  - ls -l
+  - unzip selenium-server-2.42.0.zip && mv selenium-server /usr/local/bin/selenium-server
   - nvm use $NODE_OLD_VERSION
 
 before_script:

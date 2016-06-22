@@ -42,7 +42,7 @@ before_install:
   # Install selenium server (standalone)
   - wget -c -nc --retry-connrefused --tries=0 http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
   - ls -l
-  - java -jar selenium-server-standalone-2.53.0.jar -port 4444
+  - java -jar selenium-server-standalone-2.53.0.jar -port 4444 &
   - nvm use $NODE_OLD_VERSION
 
 before_script:

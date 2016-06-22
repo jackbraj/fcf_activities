@@ -40,9 +40,9 @@ before_install:
   - npm install -g codeceptjs@$CODECEPT_VERSION
   - codeceptjs
   # Install selenium server (standalone)
-  - wget -c -nc --retry-connrefused --tries=0 https://selenium-release.storage.googleapis.com/2.42/selenium-server-2.42.0.zip
+  - wget -c -nc --retry-connrefused --tries=0 http://selenium-release.storage.googleapis.com/2.53/selenium-server-standalone-2.53.0.jar
   - ls -l
-  - unzip selenium-server-2.42.0.zip && mv selenium-server /usr/local/bin/selenium-server
+  - java -jar selenium-server-standalone-2.53.0.jar -port 4444
   - nvm use $NODE_OLD_VERSION
 
 before_script:

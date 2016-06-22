@@ -1,17 +1,63 @@
-language: node_js
-node_js:
-- "0.10"
+# define env vars
+env:
+  global:
+    - NODE_OLD_VERSION: 0.12.10
+    - NODE_NEW_VERSION: 5.10.1
+    - NPM_VERSION: 3.7.5
+    - CODECEPT_VERSION: 0.3.5
+
+# git configs
+git:
+  depth: 1
+
+# We don't want to run linux commands as super user
+sudo: false
+
+# The platforms you wants to test against
+os:
+  - linux
+
+before_install:
+# nvm is not yet supported on osx, will manually install for both platforms
+  - echo "Installing nvm and node js"
+  - rm -rf ~/.nvm
+  - git clone https://github.com/creationix/nvm.git ~/.nvm
+  - source ~/.nvm/nvm.sh
+  - nvm install $NODE_OLD_VERSION
+  - nvm install $NODE_NEW_VERSION
+  - nvm use $NODE_OLD_VERSION
+  - npm install -g npm@$NPM_VERSION
+  - node --version
+  - npm --version
+  # Install codeception
+  - echo "Installing codeceptjs"
+  - nvm use $NODE_NEW_VERSION
+  - npm install -g codeceptjs@$CODECEPT_VERSION
+  - codeceptjs
+  # Install selenium server (standalone)
+  - wget -c -nc --retry-connrefused --tries=0 https://selenium-release.storage.googleapis.com/2.42/selenium-server-2.42.0.zip
+  - tar -xvf selenium-server-2.42.0.zip && mv selenium-server /usr/local/bin/selenium-server
+  - nvm use $NODE_OLD_VERSION
 
 before_script:
 - npm install -g  balderdashy/sails appdevdesigns/appdev-cli#develop
 - cd /tmp
-- /home/travis/build/appdevdesigns/fcf_activities/test/setup/install.sh
+- bash /home/travis/build/appdevdesigns/fcf_activities/test/setup/install.sh
 - cd ad-test/node_modules
 - mv /home/travis/build/appdevdesigns/fcf_activities .
 - cd fcf_activities
-- npm install mocha chai 
+- npm install mocha chai
 - npm install
 
 script:
 - npm test
- 
+- cd test/functional
+- nvm use $NODE_NEW_VERSION
+- codeceptjs run --steps
+- nvm use $NODE_OLD_VERSION
+
+
+# You can delete cache using travis-ci web interface
+cache:
+  directories:
+  - node_modules

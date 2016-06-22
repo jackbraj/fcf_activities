@@ -46,9 +46,9 @@ before_install:
   - nvm use $NODE_OLD_VERSION
 
 before_script:
-- npm install -g  balderdashy/sails appdevdesigns/appdev-cli#develop
+- npm install -g  balderdashy/sails appdevdesigns/appdev-cli
 - cd /tmp
-- bash /home/travis/build/appdevdesigns/fcf_activities/test/setup/install.sh
+- /home/travis/build/appdevdesigns/fcf_activities/test/setup/install.sh
 - cd ad-test/node_modules
 - mv /home/travis/build/appdevdesigns/fcf_activities .
 - cd fcf_activities
